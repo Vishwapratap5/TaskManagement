@@ -1,6 +1,8 @@
 package com.taskmanagement.taskmanagement.Security;
 
 import com.taskmanagement.taskmanagement.Entity.UserAuth;
+import com.taskmanagement.taskmanagement.Enums.Permission;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class JWTToken {
@@ -24,10 +28,15 @@ public class JWTToken {
     }
 
     public String generateToken(UserAuth user) {
+
+        Set<Permission> permissions=PermissionConfig.getRolePermissions().get(user.getRole());
+
         Date now = new Date();
         Date expire = new Date(now.getTime() + expireToken);
 
         return Jwts.builder().setSubject(user.getUserOfficialEmail())
+                .claim("role",user.getRole().name())
+                .claim("permissions",permissions.stream().map(Enum::name).collect(Collectors.toList()))
                 .setIssuedAt(now)
                 .setExpiration(expire)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -44,6 +53,14 @@ public class JWTToken {
         } catch (JwtException e) {
             return false;
         }
+    }
+
+    public Claims getClaim(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+    }
+
+    public String getUserEmail(String token) {
+        return getClaim(token).getSubject();
     }
 
 }
