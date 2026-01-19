@@ -2,10 +2,11 @@ package com.taskmanagement.taskmanagement.Security;
 
 import com.taskmanagement.taskmanagement.Enums.Permission;
 import com.taskmanagement.taskmanagement.Enums.Role;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-
+@Component
 public class PermissionConfig {
 
     public static Map<Role, Set<Permission>> getRolePermissions() {
@@ -16,6 +17,7 @@ public class PermissionConfig {
                                                                     Permission.ISSUE_CREATE,
                                                                     Permission.ISSUE_ASSIGN,
                                                                     Permission.ISSUE_EDIT,
+                                                                    Permission.WORKFLOW_TRANSACTION,
                                                                     Permission.COMMENT_ADD)));
 
         map.put(Role.ADMIN,new HashSet<>(Arrays.asList(
@@ -31,10 +33,12 @@ public class PermissionConfig {
         map.put(Role.Developer,new HashSet<>(new HashSet<>(Arrays.asList(
                                                     Permission.ISSUE_VIEW,
                                                     Permission.ISSUE_EDIT,
+                                                    Permission.WORKFLOW_TRANSACTION,
                                                     Permission.COMMENT_ADD))));
 
         map.put(Role.TESTER,new HashSet<>(new HashSet<>(Arrays.asList(
                                                     Permission.ISSUE_VIEW,
+                                                    Permission.ISSUE_CREATE,
                                                     Permission.COMMENT_ADD))));
         return map;
     }

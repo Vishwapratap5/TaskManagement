@@ -5,12 +5,12 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
 @ToString
 public class RegisterRequestDTO {
-    private Long id;
-    private String userName;
-    private String userOfficialEmail;
-    private Role role;
+    public Long id;
+    public String userName;
+    public String userOfficialEmail;
+    public String password;
+    public Role role;
 }
