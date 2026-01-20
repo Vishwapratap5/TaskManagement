@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -27,26 +26,38 @@ public class UserAuthService {
     @Autowired
     private JWTToken jwtToken;
 
+
     String token;
     public String registerUser(RegisterRequestDTO register) {
+
+        Optional<UserAuth> existingEmail=userAuthRepo.findByUserOfficialEmail(register.userOfficialEmail);
+        if(existingEmail.isPresent()){
+            throw new RuntimeException("User already exists");
+        }
        UserAuth user = new UserAuth();
        user.setUserName(register.userName);
        user.setUserOfficialEmail(register.userOfficialEmail);
-       user.setPassword(register.password);
+       user.setPassword(passwordEncoder.encode(register.password));
        user.setRole(register.role);
 
-       UserAuth isUserPresent=userAuthRepo.findByUserOfficialEmail(register.userOfficialEmail).orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"User Already Exist"));
        userAuthRepo.save(user);
-        token= jwtToken.generateToken(user);
-        return "registration Successfull";
+        token=jwtToken.generateToken(user);
+       return "registration Successful";
     }
 
     public AuthResponseDTO loginUser(LoginRequestDTO login) {
-        UserAuth user=userAuthRepo.findByUserOfficialEmail(login.userOfficialEmail).orElseThrow(()->new RuntimeException("user not found..!") );
-                if(passwordEncoder.matches(login.password,user.getPassword())){
-                    throw new RuntimeException("Wrong password/ Invalid credentials");
-                }
 
-                return jwtToken.generateToken(token,"loged in Successfull..!");
+        UserAuth user = userAuthRepo
+                .findByUserOfficialEmail(login.userOfficialEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(login.password, user.getPassword())) {
+            throw new RuntimeException("Wrong password / Invalid credentials");
+        }
+
+        String token = jwtToken.generateToken(user);
+
+        return new AuthResponseDTO(token, "Logged in successfully");
     }
+
 }
