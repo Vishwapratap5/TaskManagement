@@ -4,6 +4,8 @@ import com.taskmanagement.taskmanagement.Enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name="userAuth")
@@ -27,6 +29,9 @@ public class UserAuth {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    private String resetToken;
+    private LocalDateTime resetTokenExpire;
 
 
 }
