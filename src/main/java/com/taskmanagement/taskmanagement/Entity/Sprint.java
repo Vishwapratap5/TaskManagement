@@ -1,0 +1,27 @@
+package com.taskmanagement.taskmanagement.Entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name ="sprints")
+public class Sprint {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String sprintName;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String sprintDescription;
+}
