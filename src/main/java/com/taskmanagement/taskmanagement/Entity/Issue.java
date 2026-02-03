@@ -1,5 +1,6 @@
 package com.taskmanagement.taskmanagement.Entity;
 
+import com.taskmanagement.taskmanagement.Enums.IssuePriority;
 import com.taskmanagement.taskmanagement.Enums.IssueStatus;
 import com.taskmanagement.taskmanagement.Enums.IssueType;
 import jakarta.persistence.*;
@@ -35,7 +36,7 @@ public class Issue {
     private IssueStatus issueStatus;
 
     @Enumerated(EnumType.STRING)
-    private IssueStatus issuePriority;
+    private IssuePriority issuePriority;
 
     private String assigneeEmailId;
 
