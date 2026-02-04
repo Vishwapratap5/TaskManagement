@@ -4,7 +4,7 @@ package com.taskmanagement.taskmanagement.Controller;
 import com.taskmanagement.taskmanagement.Entity.Issue;
 import com.taskmanagement.taskmanagement.Entity.IssueComment;
 import com.taskmanagement.taskmanagement.Enums.IssueStatus;
-import com.taskmanagement.taskmanagement.Security.IssueService;
+import com.taskmanagement.taskmanagement.Service.IssueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

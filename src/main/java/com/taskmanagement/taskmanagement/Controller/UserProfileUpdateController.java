@@ -1,7 +1,6 @@
 package com.taskmanagement.taskmanagement.Controller;
 
 import com.taskmanagement.taskmanagement.DTO.UserProfileUpdateDTO;
-import com.taskmanagement.taskmanagement.Repository.UserProfileUpdateRepo;
 import com.taskmanagement.taskmanagement.Service.UserProfileUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

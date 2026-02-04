@@ -1,4 +1,4 @@
-package com.taskmanagement.taskmanagement.Security;
+package com.taskmanagement.taskmanagement.Service;
 
 import com.taskmanagement.taskmanagement.Entity.*;
 import com.taskmanagement.taskmanagement.Enums.IssuePriority;
@@ -58,7 +58,8 @@ public class IssueService {
 
 
     public Issue getIssueById(Long id){
-        return issueRepo.findById(id).orElseThrow(()->new RuntimeException("Issue not found"));
+        Issue issue= issueRepo.findById(id).orElseThrow(()->new RuntimeException("Issue not found"));
+        return issue;
     }
 
     public List<Issue> getIssueByAssigneeEmailId(String assigneeEmailId){

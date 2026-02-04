@@ -30,7 +30,7 @@ public class PermissionConfig {
                                                     Permission.COMMENT_DELETE,
                                                     Permission.USER_MANAGE)));
 
-        map.put(Role.Developer,new HashSet<>(new HashSet<>(Arrays.asList(
+        map.put(Role.DEVELOPER,new HashSet<>(new HashSet<>(Arrays.asList(
                                                     Permission.ISSUE_VIEW,
                                                     Permission.ISSUE_EDIT,
                                                     Permission.WORKFLOW_TRANSACTION,

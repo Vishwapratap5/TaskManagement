@@ -85,16 +85,6 @@ public class UserAuthService {
         System.out.println("Reset token: "+token);
     }
 
-//    public void resetPassword(ResetPasswordRequestDTO resetPassword) {
-//        UserAuth user=userAuthRepo.findByResetToken(resetPassword.token).orElseThrow(() -> new RuntimeException("Invalid token"));
-//        if(user.getResetTokenExpire().isBefore(new Date())){
-//            throw new RuntimeException("token expired");
-//        }
-//        user.setPassword(passwordEncoder.encode(resetPassword.newPassword));
-//        user.setResetToken(null);
-//        user.setResetTokenExpire(null);
-//        userAuthRepo.save(user);
-//    }
 
     public void resetPassword(ResetPasswordRequestDTO resetPassword) {
 
