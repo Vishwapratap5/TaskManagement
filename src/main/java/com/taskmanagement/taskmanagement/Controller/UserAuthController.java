@@ -36,7 +36,7 @@ public class UserAuthController {
         return ResponseEntity.ok(userAuthService.loggedOut(request));
     }
 
-    @PostMapping("/fogot-password")
+    @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswrdDTO forgotPasswrdDTO) {
         userAuthService.forgotPassword(forgotPasswrdDTO);
         return ResponseEntity.ok("Reset password link sent on Email");

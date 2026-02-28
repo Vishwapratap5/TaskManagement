@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface WorkFlowRepo extends JpaRepository<WorkFlow, Long> {
 
-  Optional<WorkFlow> findByWorkflowName(String workflowName);
+  Optional<WorkFlow>findByWorkFlowName(String workFlowName);
 
 }

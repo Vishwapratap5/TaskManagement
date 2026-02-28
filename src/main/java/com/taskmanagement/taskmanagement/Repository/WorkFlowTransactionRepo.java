@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface WorkFlowTransactionRepo extends JpaRepository<WorkFlowTransaction, Long> {
-  List<WorkFlowTransaction> findByWorkflowId(WorkFlow workflowId);
-  List<WorkFlowTransaction> findByWorkflowIdAndFromStatus(WorkFlow workflowId, IssueStatus fromStatus);
+  List<WorkFlowTransaction>findByWorkFlowId(Long workflowId);
+  List<WorkFlowTransaction>findByWorkFlowIdAndFromStatus(Long workflowId, IssueStatus fromStatus);
 }

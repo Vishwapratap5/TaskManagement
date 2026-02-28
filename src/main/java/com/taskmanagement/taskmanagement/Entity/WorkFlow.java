@@ -5,32 +5,35 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="work_Flows")
+@Table(name="work_flows")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class WorkFlow {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long workflowId;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(unique = true,nullable = false)
-    private String workflowName;
+    @Column(unique=true,nullable=false)
+    private String workFlowName;
 
-    @Column(length =1000,nullable = false)
+    @Column(length=1000)
     private String description;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt= LocalDateTime.now();
 
-    @OneToMany(mappedBy = "workflow")
-    private List<WorkFlowTransaction> transactions=new ArrayList<>();
+    @OneToMany(mappedBy="workFlow")
+    private List<WorkFlowTransaction> transactions= new ArrayList<>();
+
+
 }
+
+
