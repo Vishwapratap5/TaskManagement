@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,8 +37,8 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
-    public Optional<Board> getByBoardId(Long boardId) {
-        return boardRepository.findById(boardId);
+    public Board getByBoardId(Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(()->new EntityNotFoundException("Board not found"));
     }
 
     public List<BoardColumn> getAllBoardColumns(Long boardId) {
@@ -81,6 +82,74 @@ public class BoardService {
 //            issueRepo.save(issue);
 //        }
         return boardCardRepository.save(boardCard);
+
+    }
+
+
+    @Transactional
+    public void moveCard(Long boardId, Long columnId, Long cardId,int position,String performedBy) {
+
+        BoardCard card=boardCardRepository.findById(cardId).orElseThrow(()->new RuntimeException("card not found..!"));
+        BoardColumn from= card.getColumn();
+        BoardColumn to= boardColumnRepository.findById(columnId).orElseThrow(()->new RuntimeException("card not found..!"));
+
+        if(to.getWipLimit()!=null && to.getWipLimit()>0){
+            Long count=boardCardRepository.countByBoardIdAndColumnId(boardId,columnId);
+            if(Objects.equals(from.getId(),to.getId()) && count>=to.getWipLimit()){
+                throw new RuntimeException("Wip limit reached for column:"+columnId);
+            }
+        }
+
+        List<BoardCard> fromList=boardCardRepository.findByBoardIdAndColumnOrderByPosition(boardId,from.getId());
+
+        for(BoardCard c:fromList){
+            if(c.getPosition()>card.getPosition()){
+                c.setPosition(c.getPosition()-1);
+                boardCardRepository.save(c);
+            }
+        }
+
+        List<BoardCard> toList=boardCardRepository.findByBoardIdAndColumnOrderByPosition(boardId,to.getId());
+        for(BoardCard c:toList){
+            if(c.getPosition()>=card.getPosition()){
+                c.setPosition(c.getPosition()+1);
+                boardCardRepository.save(c);
+            }
+        }
+
+        card.setColumn(to);
+        card.setPosition(card.getPosition());
+        boardCardRepository.save(card);
+
+        issueRepo.findById(card.getIssueId()).ifPresent(issue->{
+            if(to.getStatusKey()!=null){
+                issue.setIssueStatus(Enum.valueOf(IssueStatus.class,to.getStatusKey()));
+                issueRepo.save(issue);
+            }
+        });
+    }
+
+    @Transactional
+    public void recordColumn(Long boardId, Long columnId, List<Long> orderedByCardId) {
+        int position=0;
+        for(Long id:orderedByCardId){
+            BoardCard card=boardCardRepository.findById(id).orElseThrow(()->new RuntimeException("card not found..!"));
+            card.setPosition(position++);
+            boardCardRepository.save(card);
+        }
+    }
+
+    public Optional<Board> findById(Long id){
+        return boardRepository.findById(id);
+    }
+    @Transactional
+    public void startSprint(Long sprintId){
+
+    }
+
+
+    @Transactional
+    public void completeSprint(Long sprintId){
 
     }
 }

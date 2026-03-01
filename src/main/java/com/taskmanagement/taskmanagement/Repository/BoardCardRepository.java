@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BoardCardRepository extends JpaRepository<BoardCard, Integer> {
+public interface BoardCardRepository extends JpaRepository<BoardCard, Long> {
     Optional<BoardCard> findByIssueId(Long issueId);
 
     long countByBoardIdAndColumnId(Long boardId, Long columnId);

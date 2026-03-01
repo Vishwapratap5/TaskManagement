@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class BoardCard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private Long boardId;
 
