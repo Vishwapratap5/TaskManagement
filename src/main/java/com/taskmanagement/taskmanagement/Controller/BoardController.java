@@ -18,7 +18,6 @@ import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
 @RequestMapping("/api/boards")
 public class BoardController {

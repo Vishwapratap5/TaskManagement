@@ -7,4 +7,5 @@ public enum IssueStatus {
     IN_REVIEW,
     RESOLVED,
     REOPENED,
+    DONE
 }

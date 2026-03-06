@@ -4,7 +4,6 @@ import com.taskmanagement.taskmanagement.Entity.Board;
 import com.taskmanagement.taskmanagement.Entity.BoardCard;
 import com.taskmanagement.taskmanagement.Entity.BoardColumn;
 import com.taskmanagement.taskmanagement.Entity.Issue;
-import com.taskmanagement.taskmanagement.Enums.IssueStatus;
 import com.taskmanagement.taskmanagement.Repository.BoardCardRepository;
 import com.taskmanagement.taskmanagement.Repository.BoardColumnRepository;
 import com.taskmanagement.taskmanagement.Repository.BoardRepository;
@@ -42,11 +41,11 @@ public class BoardService {
     }
 
     public List<BoardColumn> getAllBoardColumns(Long boardId) {
-        return boardRepository.findByBoardIdOrderByPosition(boardId);
+        return boardColumnRepository.findByBoard_BoardIdOrderByPosition(boardId);
     }
 
     public List<BoardCard> getBoardByCards(Long boardId,Long columnId) {
-        return boardRepository.findByIdAndColumnOrderByPostion(boardId,columnId);
+        return boardCardRepository.findByBoardIdAndColumn_IdOrderByPosition(boardId,columnId);
     }
 
     @Transactional
@@ -67,7 +66,7 @@ public class BoardService {
 
 
         }
-        List<BoardCard> existing=boardCardRepository.findByBoardIdAndColumnOrderByPosition(boardId,columnId);
+        List<BoardCard> existing=boardCardRepository.findByBoardIdAndColumn_IdOrderByPosition(boardId,columnId);
 
         int postion=existing.size();
 
@@ -100,7 +99,7 @@ public class BoardService {
             }
         }
 
-        List<BoardCard> fromList=boardCardRepository.findByBoardIdAndColumnOrderByPosition(boardId,from.getId());
+        List<BoardCard> fromList=boardCardRepository.findByBoardIdAndColumn_IdOrderByPosition(boardId,from.getId());
 
         for(BoardCard c:fromList){
             if(c.getPosition()>card.getPosition()){
@@ -109,7 +108,7 @@ public class BoardService {
             }
         }
 
-        List<BoardCard> toList=boardCardRepository.findByBoardIdAndColumnOrderByPosition(boardId,to.getId());
+        List<BoardCard> toList=boardCardRepository.findByBoardIdAndColumn_IdOrderByPosition(boardId,to.getId());
         for(BoardCard c:toList){
             if(c.getPosition()>=card.getPosition()){
                 c.setPosition(c.getPosition()+1);
@@ -123,7 +122,7 @@ public class BoardService {
 
         issueRepo.findById(card.getIssueId()).ifPresent(issue->{
             if(to.getStatusKey()!=null){
-                issue.setIssueStatus(Enum.valueOf(IssueStatus.class,to.getStatusKey()));
+                issue.setIssueStatus(to.getStatusKey());
                 issueRepo.save(issue);
             }
         });

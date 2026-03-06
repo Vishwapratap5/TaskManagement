@@ -13,5 +13,7 @@ public interface BoardCardRepository extends JpaRepository<BoardCard, Long> {
 
     long countByBoardIdAndColumnId(Long boardId, Long columnId);
 
-    List<BoardCard> findByBoardIdAndColumnOrderByPosition(Long boardId, Long columnId);
+    List<BoardCard> findByBoardIdAndColumn_IdOrderByPosition(Long boardId, Long columnId);
+
+
 }

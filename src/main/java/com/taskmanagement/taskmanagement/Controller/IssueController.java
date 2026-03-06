@@ -28,13 +28,12 @@ public class IssueController {
 
     @PutMapping("/updateStatus/{id}")
     public ResponseEntity<Issue> updateIssueStatus(@PathVariable("id") Long id,
-                                                   @RequestParam IssueStatus issueStatus,
-                                                   @PathVariable String performedBy){
-        return ResponseEntity.ok(issueService.updateStatus(id, issueStatus, performedBy));
+                                                   @RequestParam IssueStatus issueStatus){
+        return ResponseEntity.ok(issueService.updateStatus(id, issueStatus));
     }
 
     @PostMapping("/{id}/comments")
-    public ResponseEntity<IssueComment> addComment(@PathVariable("id") Long IssueId, @PathVariable String authorEmail, @RequestBody Map<String, String> body){
+    public ResponseEntity<IssueComment> addComment(@PathVariable("id") Long IssueId, @RequestParam String authorEmail, @RequestBody Map<String, String> body){
         String commentBody=body.get("commentBody");
         String author=(authorEmail==null)?body.getOrDefault("authorEmail","system@gmail"):authorEmail;
         return ResponseEntity.ok(issueService.addComment(IssueId, author, commentBody));

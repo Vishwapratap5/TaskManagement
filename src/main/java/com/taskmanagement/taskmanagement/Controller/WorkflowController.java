@@ -49,13 +49,13 @@ public class WorkflowController {
         return ResponseEntity.ok("Deleted");
     }
 
-    @GetMapping("/{id}/transaction/{from}")
+    @GetMapping("/{id}/transaction")
     public ResponseEntity<List<WorkFlowTransaction>> allowed(@PathVariable Long id, @RequestParam IssueStatus fromStatus) {
         return ResponseEntity.ok(workFlowService.allowedTransactions(id, fromStatus));
     }
 
     @PostMapping("/{id}/valid-transaction")
-    public ResponseEntity<Boolean> validTransactions(@PathVariable Long workFlowId,
+    public ResponseEntity<Boolean> validTransactions(@PathVariable("id") Long workFlowId,
                                                      @RequestParam IssueStatus fromStatus,
                                                      @RequestParam IssueStatus toStatus,
                                                      @RequestBody Set<Role> userRoles) {
@@ -65,7 +65,7 @@ public class WorkflowController {
     }
 
     @GetMapping("/name")
-    public ResponseEntity<Optional<WorkFlow>> getName(@PathVariable String workFlowName) {
+    public ResponseEntity<Optional<WorkFlow>> getName(@RequestParam("name") String workFlowName) {
         return ResponseEntity.ok(workFlowService.findByName(workFlowName));
     }
 

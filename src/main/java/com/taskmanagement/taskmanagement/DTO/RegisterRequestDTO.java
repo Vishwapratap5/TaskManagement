@@ -8,7 +8,6 @@ import lombok.*;
 @Builder
 @ToString
 public class RegisterRequestDTO {
-    public Long id;
     public String userName;
     public String userOfficialEmail;
     public String password;

@@ -22,6 +22,7 @@ public class BoardColumn {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private IssueStatus statusKey;
 
     private Integer position;

@@ -1,5 +1,6 @@
 package com.taskmanagement.taskmanagement.Entity;
 
+import com.taskmanagement.taskmanagement.Enums.SprintStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,8 +21,11 @@ public class Sprint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long projectId;
+    private SprintStatus sprintStatus;
     private String sprintName;
     private LocalDate startDate;
     private LocalDate endDate;
+    private LocalDateTime createdAt=LocalDateTime.now();
     private String sprintDescription;
 }

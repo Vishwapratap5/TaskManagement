@@ -75,7 +75,7 @@ public class IssueService {
     }
 
     @Transactional
-    public Issue updateStatus(Long id, IssueStatus issueStatus,String performedBy){
+    public Issue updateStatus(Long id, IssueStatus issueStatus){
         Issue issue = issueRepo.findById(id).orElseThrow(()->new RuntimeException("Issue not Found..!"));
 
         try{

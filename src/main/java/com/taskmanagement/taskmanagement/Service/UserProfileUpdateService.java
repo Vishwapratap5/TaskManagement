@@ -14,23 +14,19 @@ public class UserProfileUpdateService {
     @Autowired
     private UserProfileUpdateRepo userProfileUpdateRepo;
 
-    public UserProfileUpdateDTO updateUserProfile(UserProfileUpdateDTO userProfileUpdate) {
+    public UserProfileUpdate updateUserProfile(UserProfileUpdateDTO dto) {
 
-        if(userProfileUpdateRepo.findByUserOfficialEmail(userProfileUpdate.getUserOfficialEmail()).isEmpty()){
-            throw new RuntimeException("UserProfileUpdate not found");
-        }
+        UserProfileUpdate profile = userProfileUpdateRepo
+                .findByUserOfficialEmail(dto.getUserOfficialEmail())
+                .orElseThrow(() -> new RuntimeException("Profile not found"));
 
-        UserProfileUpdate userProfile = new UserProfileUpdate();
+        profile.setUserName(dto.getUserName());
+        profile.setDepartment(dto.getDepartment());
+        profile.setDesignation(dto.getDesignation());
+        profile.setOrganizationName(dto.getOrganizationName());
+        profile.setActive(dto.isActive());
 
-        userProfile.setUserName(userProfileUpdate.getUserName());
-        userProfile.setUserOfficialEmail(userProfileUpdate.getUserOfficialEmail());
-        userProfile.setActive(userProfileUpdate.isActive());
-        userProfile.setDepartment(userProfileUpdate.getDepartment());
-        userProfile.setOrganizationName(userProfileUpdate.getOrganizationName());
-
-        userProfileUpdateRepo.save(userProfile);
-
-        return toDTO(userProfile);
+        return userProfileUpdateRepo.save(profile);
     }
 
     public List<UserProfileUpdateDTO> getAllProfiles(){

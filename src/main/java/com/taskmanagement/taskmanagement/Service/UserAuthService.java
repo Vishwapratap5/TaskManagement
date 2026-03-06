@@ -3,7 +3,9 @@ package com.taskmanagement.taskmanagement.Service;
 import com.taskmanagement.taskmanagement.DTO.*;
 import com.taskmanagement.taskmanagement.Email.EmailService;
 import com.taskmanagement.taskmanagement.Entity.UserAuth;
+import com.taskmanagement.taskmanagement.Entity.UserProfileUpdate;
 import com.taskmanagement.taskmanagement.Repository.UserAuthRepo;
+import com.taskmanagement.taskmanagement.Repository.UserProfileUpdateRepo;
 import com.taskmanagement.taskmanagement.Security.JWTToken;
 import com.taskmanagement.taskmanagement.Security.TokenBlockListService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +38,9 @@ public class UserAuthService {
     @Autowired
     TokenBlockListService tokenBlockListService;
 
+    @Autowired
+    UserProfileUpdateRepo userProfileUpdateRepo;
+
     String token;
     public String registerUser(RegisterRequestDTO register) {
 
@@ -48,6 +53,18 @@ public class UserAuthService {
        user.setUserOfficialEmail(register.userOfficialEmail);
        user.setPassword(passwordEncoder.encode(register.password));
        user.setRole(register.role);
+
+        UserProfileUpdate profile = UserProfileUpdate.builder()
+                .userOfficialEmail(user.getUserOfficialEmail())
+                .userName(user.getUserName())
+                .department("Not Assigned")
+                .designation("Employee")
+                .organizationName("Default Org")
+                .active(true)
+                .build();
+
+        userProfileUpdateRepo.save(profile);
+
 
        userAuthRepo.save(user);
         token=jwtToken.generateToken(user);
