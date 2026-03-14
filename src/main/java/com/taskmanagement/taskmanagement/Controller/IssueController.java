@@ -22,13 +22,9 @@ public class IssueController {
     private IssueService issueService;
 
     @PostMapping("/createIssue")
-    public ResponseEntity<String> createIssue(@RequestBody Issue issue){
-//        System.out.println("Create Issue API called");
-//        return ResponseEntity.ok(issueService.createIssue(issue));
+    public ResponseEntity<Issue> createIssue(@RequestBody Issue issue){
 
-        System.out.println(">>> CREATE ISSUE API HIT <<<");
-
-        return ResponseEntity.ok("Controller reached");
+        return ResponseEntity.ok(issueService.createIssue(issue));
     }
 
     @PutMapping("/updateStatus/{id}")
